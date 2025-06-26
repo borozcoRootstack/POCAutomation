@@ -1,0 +1,22 @@
+stages:
+  - test
+
+variables:
+  MAVEN_CLI_OPTS: "-B -ntp"
+
+test:
+  stage: test
+  image: maven:3.8.7-eclipse-temurin-11
+  before_script:
+    # Instalar Playwright CLI y dependencias
+    - apt-get update
+    - apt-get install -y wget unzip xvfb
+    - wget https://github.com/microsoft/playwright-java/releases/latest/download/playwright-cli.zip
+    - unzip playwright-cli.zip -d ~/.playwright
+    - export PATH="$PATH:$HOME/.playwright"
+    - echo "$HOME/.playwright" >> ~/.bashrc
+    - xvfb-run --auto-servernum ~/.playwright/playwright install
+  script:
+    - mvn clean test
+  only:
+    - main
