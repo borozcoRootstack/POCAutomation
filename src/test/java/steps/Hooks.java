@@ -18,12 +18,8 @@ public class Hooks {
     public void setUp() {
         playwright = Playwright.create();
 
-        // Usar Google Chrome real
-        String chromePath = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe";
-
         browser = playwright.chromium().launch(new BrowserType.LaunchOptions()
-                .setExecutablePath(Paths.get(chromePath))
-                .setHeadless(false)
+                .setHeadless(false) // Puedes poner true si lo quieres sin UI
         );
 
         context = browser.newContext();
