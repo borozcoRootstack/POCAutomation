@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Set up Java 11
@@ -28,12 +28,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Install Playwright CLI
-        run: |
-          wget https://github.com/microsoft/playwright-java/releases/latest/download/playwright-cli.zip
-          unzip playwright-cli.zip -d ~/.playwright
-          export PATH="$PATH:$HOME/.playwright"
-          ~/.playwright/playwright install
+      - name: Install dependencies
+        run: mvn install -DskipTests
 
-      - name: Run Tests
-        run: mvn clean test
+      - name: Install Playwright browsers
+        run: mvn exec:java -e -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install"
+
+      - name: Run Playwright tests
+        run: mvn test
