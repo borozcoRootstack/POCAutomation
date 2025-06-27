@@ -4,8 +4,6 @@ import com.microsoft.playwright.*;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
-import java.awt.*;
-import java.nio.file.Paths;
 
 public class Hooks {
 
